@@ -16,4 +16,9 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
 
-   
+   # Scan for Vulnerabilities with Trivy
+    - name: Scan for Vulnerabilities
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        severity: 'CRITICAL'
