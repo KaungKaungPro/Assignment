@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # Check out the code
-    - name: Check-out the code
+    - name: Check out the code
       uses: actions/checkout@v3
 
    # Scan for Vulnerabilities with Trivy
