@@ -46,8 +46,7 @@ jobs:
         cosign-release: 'v2.2.4'
 
     - name: Sign image with a key
-      run: |
-        cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+      run: cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
       env:
         TAGS: kaungkaungpro/cicd_docker:${{ github.sha }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
