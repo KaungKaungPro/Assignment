@@ -51,3 +51,13 @@ jobs:
       uses: sigstore/cosign-installer@2.2.0
       with:
         cosign-release: 'v2.2.4'
+
+    # Sign image with a key
+    - name: Sign image with a key
+      run: |
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+      env:
+        TAGS: ywaychitaung/ci-cd-workshop:${{ github.sha }}
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        DIGEST: ${{ steps.build-and-push.outputs.digest }}
