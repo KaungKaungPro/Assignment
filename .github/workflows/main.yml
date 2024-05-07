@@ -79,6 +79,7 @@ jobs:
         output: 'trivy-results.txt'
         severity: 'HIGH'
 
+
     - name: Send GitHub Action trigger data to Slack workflow
       uses: rtCamp/action-slack-notify@v2
       env:
