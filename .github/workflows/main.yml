@@ -46,16 +46,24 @@ jobs:
         push: true
         tags: kaungkaungpro/cicd_docker:${{ github.sha }}
 
-    # Install Cosign
+    
+
+          # Install Cosign
     - name: Install cosign
       uses: sigstore/cosign-installer@2.2.0
       with:
         cosign-release: 'v2.2.4'
 
-    # Sign image with a key
+      # Prepare the key file from the environment variable
+    - name: Prepare key file
+      run: |
+        echo "$COSIGN_PRIVATE_KEY" | tr -d '\r' > cosign.key
+        chmod 600 cosign.key
+
+      # Sign image with a key
     - name: Sign image with a key
       run: |
-        cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
+        cosign sign --yes --key file://cosign.key "${TAGS}@${DIGEST}"
       env:
         TAGS: kaungkaungpro/cicd_docker:${{ github.sha }}
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
