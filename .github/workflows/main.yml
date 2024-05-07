@@ -52,6 +52,19 @@ jobs:
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
+        # Send Slack notification
+    - name: Send GitHub Action trigger data to Slack workflow
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_TITLE: "Image build and signed"
+        SLACK_MESSAGE: |
+          Name: Kyaw Lin Thu
+          Matriculation: A0290864U
+          Email: e1327895@u.nus.edu
+          GitHub: https://github.com/KaungKaungPro/Assignment.git
+          Docker: https://hub.docker.com/repository/docker/kaungkaungpro/cicd_docker/general
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+
   fail_build:
           # Check if the commit message contains #norun and if it does, skip the workflow and if CONDITION is set 'FAIL' it will run the workflow otherwise skip the workflow
           if: ${{ vars.SUCCESS == 'false' && startsWith(github.event.head_commit.message, '#NORUN') == false }}
