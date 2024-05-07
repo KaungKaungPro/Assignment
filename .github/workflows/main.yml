@@ -31,7 +31,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}         
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
     - name: Build and push
       uses: docker/build-push-action@v5
       id: build-and-push
@@ -52,7 +51,6 @@ jobs:
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
-        # Send Slack notification
     - name: Send GitHub Action trigger data to Slack workflow
       uses: rtCamp/action-slack-notify@v2
       env:
@@ -66,20 +64,17 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   fail_build:
-          # Check if the commit message contains #norun and if it does, skip the workflow and if CONDITION is set 'FAIL' it will run the workflow otherwise skip the workflow
-          if: ${{ vars.SUCCESS == 'false' && startsWith(github.event.head_commit.message, '#NORUN') == false }}
-          runs-on: ubuntu-latest
-          steps:
-          # Check out the code
-          - name: Check out the code
-            uses: actions/checkout@v3
+    if: ${{ vars.SUCCESS == 'false' && startsWith(github.event.head_commit.message, '#NORUN') == false }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v3
       
-          # Scan for Vulnerabilities with Trivy 
-          - name: Scan for Vulnerabilities
-            uses: aquasecurity/trivy-action@master
-            with:
-              scan-type: 'fs'
-              ignore-unfixed: true
-              format: 'table'
-              output: 'trivy-results.txt'
-              severity: 'HIGH'
+    - name: Scan for Vulnerabilities
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'table'
+        output: 'trivy-results.txt'
+        severity: 'HIGH'
