@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v3  # Uses the checkout action to fetch the repository code.
 
     - name: Scan for Vulnerabilities
-      uses: aquasecurity/trivy-action@v1.0.0  # Uses Trivy to scan the codebase for vulnerabilities.
+      uses: aquasecurity/trivy-action@master  # Uses Trivy to scan the codebase for vulnerabilities.
       with:
         scan-type: 'fs'  # Set the scan type to filesystem.
         severity: ${{ job.status == 'success' && 'CRITICAL' || 'HIGH' }}  # Adjust severity based on job status.
