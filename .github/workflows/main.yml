@@ -3,7 +3,6 @@ name: CICD
 on:
   push:
     branches:
-      # Only run workflow on release/v1.0, v15.3 or v7.09 branch
       - 'release/v[0-9]+.[0-9]+'
 
 jobs:
