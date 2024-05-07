@@ -89,7 +89,6 @@ jobs:
             Failed trivy scan, see uploaded report
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-    # Upload file to Slack
     - uses: MeilCli/slack-upload-file@v3
       with:
         slack_token: ${{ secrets.SLACK_TOKEN }}
