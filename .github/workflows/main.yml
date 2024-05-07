@@ -16,14 +16,14 @@ jobs:
     - name: Check out the code
       uses: actions/checkout@v3
 
-   # Scan for Vulnerabilities with Trivy
+    # Scan for Vulnerabilities with Trivy
     - name: Scan for Vulnerabilities
       uses: aquasecurity/trivy-action@master
       with:
         scan-type: 'fs'
         severity: 'CRITICAL'
 
- # Get the requirements to build the image
+    # Get the requirements to build the image
     - name: Set up QEMU
       id: docker
       uses: docker/setup-qemu-action@v3
@@ -37,3 +37,11 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}         
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    # Build and push the image
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      id: build-and-push
+      with:
+        push: true
+        tags: kaungkaungpro/cicd_docker:${{ github.sha }}
