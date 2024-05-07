@@ -10,7 +10,7 @@ jobs:
     if: ${{ vars.SUCCESS == 'true' && startsWith(github.event.head_commit.message, '#NORUN') == false }}
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the code
+    - name: Check the code
       uses: actions/checkout@v3
 
     - name: Scan for Vulnerabilities
@@ -44,7 +44,7 @@ jobs:
       with:
         cosign-release: 'v2.2.4'
 
-    - name: Sign image with a key
+    - name: Sign image
       run: cosign sign --yes --key env://COSIGN_PRIVATE_KEY "${TAGS}@${DIGEST}"
       env:
         TAGS: kaungkaungpro/cicd_docker:${{ github.sha }}
@@ -68,7 +68,7 @@ jobs:
     if: ${{ vars.SUCCESS == 'false' && startsWith(github.event.head_commit.message, '#NORUN') == false }}
     runs-on: ubuntu-latest
     steps:
-    - name: Check out the code
+    - name: Check the code
       uses: actions/checkout@v3
       
     - name: Scan for Vulnerabilities
