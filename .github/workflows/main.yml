@@ -45,3 +45,9 @@ jobs:
       with:
         push: true
         tags: kaungkaungpro/cicd_docker:${{ github.sha }}
+
+    # Install Cosign
+    - name: Install cosign
+      uses: sigstore/cosign-installer@2.2.0
+      with:
+        cosign-release: 'v2.2.4'
